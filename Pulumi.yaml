@@ -1,0 +1,33 @@
+name: connections-fe
+runtime: yaml
+description: A minimal Google Cloud Pulumi YAML program
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: gcp-yaml
+outputs:
+  # Export the DNS name of the bucket
+  bucketName: ${site-bucket.url}
+  bucketEndpoint: http://storage.googleapis.com/${site-bucket.name}/index.html
+resources:
+  # Create a GCP resource (Storage Bucket)
+  site-bucket:
+    properties:
+      location: US
+      uniformBucketLevelAccess: true
+      website:
+        mainPageSuffix: index.html
+    type: gcp:storage:Bucket
+  # Create an IAM binding to allow public read access to the bucket.
+  site-bucket-iam-binding:
+    properties:
+      bucket: ${site-bucket.name}
+      members:
+        - allUsers
+      role: roles/storage.objectViewer
+    type: gcp:storage:BucketIAMBinding
+  siteContents:
+    type: synced-folder:GoogleCloudFolder
+    properties:
+      path: "./dist" # Path to your local 'dist' folder
+      bucketName: ${site-bucket.name}
