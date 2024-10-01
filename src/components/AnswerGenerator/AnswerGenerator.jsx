@@ -12,11 +12,22 @@ function AnswerGenerator() {
     initialValues: {
       clue: '',
     },
+    validate: (values) => {
+      const errors = {};
+      if (!values.clue.trim()) {
+        errors.clue = 'Clue cannot be empty';
+      }
+      return errors;
+    },
     onSubmit: ({ clue }) => {
+      if (!clue.trim()) {
+        return; 
+      }
       console.debug(clue);
       fetchAnswers(clue);
     },
   });
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <form onSubmit={formik.handleSubmit}>
@@ -37,6 +48,8 @@ function AnswerGenerator() {
             onChange={formik.handleChange}
             value={formik.values.clue}
             onBlur={formik.handleBlur}
+            helperText={formik.errors.clue ? formik.errors.clue : 'Please enter your clue'}
+            error={Boolean(formik.errors.clue)} 
           />
           <Button type="submit" variant="outlined" sx={{ mt: '8px' }}>
             Submit
