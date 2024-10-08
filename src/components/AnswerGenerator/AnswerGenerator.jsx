@@ -21,7 +21,7 @@ function AnswerGenerator() {
     },
     onSubmit: ({ clue }) => {
       if (!clue.trim()) {
-        return; 
+        return;
       }
       console.debug(clue);
       fetchAnswers(clue);
@@ -49,7 +49,7 @@ function AnswerGenerator() {
             value={formik.values.clue}
             onBlur={formik.handleBlur}
             helperText={formik.errors.clue ? formik.errors.clue : 'Please enter your clue'}
-            error={Boolean(formik.errors.clue)} 
+            error={Boolean(formik.errors.clue)}
           />
           <Button type="submit" variant="outlined" sx={{ mt: '8px' }}>
             Submit
