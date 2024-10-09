@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+  },
+  "plugins": ["react", "react-hooks"],
+  "extends": ["plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

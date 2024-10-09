@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import AnswerGenerator from './components/AnswerGenerator/AnswerGenerator';
+// import AnswerGenerator from './components/AnswerGenerator/AnswerGenerator';
+import GameBoard from 'components/GameBoard/GameBoard';
 
 function AppContainer() {
   return (
@@ -7,7 +8,8 @@ function AppContainer() {
       sx={{
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#242424',
+        // backgroundColor: '#B388EB',
+        backgroundColor: '#242331',
         m: 0,
         p: 0,
         overflow: 'scroll',
@@ -16,7 +18,7 @@ function AppContainer() {
         justifyContent: 'center',
       }}
     >
-      <AnswerGenerator />
+      <GameBoard />
     </Box>
   );
 }
