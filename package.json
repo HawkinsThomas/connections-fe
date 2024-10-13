@@ -21,7 +21,9 @@
     "mobx-state-tree": "^6.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-fast-marquee": "^1.6.5",
     "url": "^0.11.4",
+    "uuid": "^10.0.0",
     "vite-jsconfig-paths": "^2.0.1"
   },
   "devDependencies": {

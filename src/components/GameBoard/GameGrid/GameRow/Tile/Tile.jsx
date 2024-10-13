@@ -24,6 +24,14 @@ const styles = {
     borderColor: '#56445D',
     transform: 'scale(0.95)',
   },
+  '&.isSolved': {
+    backgroundColor: 'black',
+    borderColor: 'black',
+    transform: 'scale(0.99)',
+    '&:hover': {
+      cursor: 'default',
+    },
+  },
   transition: '0.3s ease',
   '&:hover': {
     cursor: 'pointer',
@@ -31,6 +39,9 @@ const styles = {
   animation: 'none',
   '&.isAnimatingShake': {
     animation: 'shake 0.15s ease-in-out 3',
+  },
+  '&.isAnimatingShuffle': {
+    animation: 'shuffle 1s ease-in-out 1',
   },
   '@keyframes shake': {
     '0%': {
@@ -49,6 +60,20 @@ const styles = {
       transform: 'translateX(0px) scale(0.95)',
     },
   },
+  '@keyframes shuffle': {
+    '0%': {
+      opacity: 1,
+    },
+    '35%': {
+      opacity: 0,
+    },
+    '65%': {
+      opacity: 0,
+    },
+    '100%': {
+      opacity: 1,
+    },
+  },
 };
 
 function Tile({ rowIndex, columnIndex }) {
@@ -57,12 +82,23 @@ function Tile({ rowIndex, columnIndex }) {
   } = useMst();
 
   const tile = getTileByIndex(rowIndex, columnIndex);
-  const { isSelected, isAnimatingShake, setIsAnimatingShake } = tile;
+  const { isSelected, isAnimatingShake, setIsAnimatingShake, isSolved, isAnimatingShuffle, setIsAnimatingShuffle } =
+    tile;
 
   useAnimateOnce({ isAnimating: isAnimatingShake, setIsAnimating: setIsAnimatingShake, timeout: 450 });
+  useAnimateOnce({ isAnimating: isAnimatingShuffle, setIsAnimating: setIsAnimatingShuffle, timeout: 1000 });
   return (
-    <Box sx={styles} className={clsx({ isSelected, isAnimatingShake })} onClick={() => tileOnClickHandler(tile)}>
-      <Typography sx={{ transition: '0.3s' }} color={isSelected ? 'white' : 'black'} fontWeight={'bold'}>
+    <Box
+      sx={styles}
+      className={clsx({ isSelected, isAnimatingShake, isSolved, isAnimatingShuffle })}
+      onClick={() => tileOnClickHandler(tile)}
+    >
+      <Typography
+        sx={{ transition: '0.3s' }}
+        className={clsx({ isAnimatingShuffle })}
+        color={isSelected || isSolved ? 'white' : 'black'}
+        fontWeight={'bold'}
+      >
         {tile.text.toUpperCase()}
       </Typography>
     </Box>

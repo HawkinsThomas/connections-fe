@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
 import { useAnimateOnce } from 'hooks/useAnimateOnce';
+import { useMst } from 'hooks/useMst';
 
 const ballStyles = {
   backgroundColor: 'orange',
@@ -32,20 +33,20 @@ const ballStyles = {
   },
 };
 
-function Ball() {
+function Ball({ index }) {
+  const {
+    selectedGame: { mistakesRemaining, isShuffling },
+  } = useMst();
   const [isAnimating, setIsAnimating] = React.useState(false);
   useAnimateOnce({ isAnimating, setIsAnimating, timeout: 2000 });
 
+  React.useEffect(() => {
+    const t = setTimeout(() => setIsAnimating(true), index * 300);
+    return () => clearTimeout(t);
+  }, [mistakesRemaining, isShuffling]);
+
   useAnimateOnce({});
-  return (
-    <Box
-      sx={ballStyles}
-      className={clsx({ isAnimating })}
-      onMouseEnter={() => {
-        if (!isAnimating) setIsAnimating(true);
-      }}
-    />
-  );
+  return <Box sx={ballStyles} className={clsx({ isAnimating })} />;
 }
 
 export default observer(Ball);

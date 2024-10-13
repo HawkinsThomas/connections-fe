@@ -63,6 +63,8 @@ export function createSampleGame() {
   const sampleGame = game.create({});
   sampleGame.addTiles([...groupOneTiles, ...groupTwoTiles, ...groupThreeTiles, ...groupFourTiles]);
   sampleGame.addGroup(groupOne).addGroup(groupTwo).addGroup(groupThree).addGroup(groupFour);
+  sampleGame.shuffleTiles();
+  sampleGame.setIsShuffling(false);
 
   return getSnapshot(sampleGame);
 }
