@@ -5,7 +5,6 @@ export const SOURCES = {
 };
 
 export const createUrl = ({ source, route, params }) => {
-  console.debug(params);
   return url.format({
     protocol: 'https',
     host: source,

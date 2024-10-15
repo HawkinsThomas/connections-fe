@@ -35,7 +35,7 @@ const ballStyles = {
 
 function Ball({ index }) {
   const {
-    selectedGame: { mistakesRemaining, isShuffling },
+    selectedGame: { mistakesRemaining },
   } = useMst();
   const [isAnimating, setIsAnimating] = React.useState(false);
   useAnimateOnce({ isAnimating, setIsAnimating, timeout: 2000 });
@@ -43,7 +43,7 @@ function Ball({ index }) {
   React.useEffect(() => {
     const t = setTimeout(() => setIsAnimating(true), index * 300);
     return () => clearTimeout(t);
-  }, [mistakesRemaining, isShuffling]);
+  }, [mistakesRemaining]);
 
   useAnimateOnce({});
   return <Box sx={ballStyles} className={clsx({ isAnimating })} />;

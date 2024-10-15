@@ -9,11 +9,11 @@ import Marquee from 'react-fast-marquee';
 function GameBoard() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Marquee gradient gradientColor="#242331" style={{ height: '55px' }} speed={10} direction="right">
-        <Typography variant="h7" color="grey.500" sx={{ mb: 2 }}>
-          Create four groups of four!
-        </Typography>
-      </Marquee>
+      {/* <Marquee gradient gradientColor="#242331" style={{ height: '55px' }} speed={10} direction="right"> */}
+      <Typography variant="h7" color="grey.500" sx={{ mb: 2 }}>
+        Create four groups of four!
+      </Typography>
+      {/* </Marquee> */}
       <GameGrid />
       <MistakesView />
       <ButtonPanel />

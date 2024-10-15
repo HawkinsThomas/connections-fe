@@ -17,22 +17,41 @@ export const game = model({
       // sorry to anyone reading this
       if (!self.isShuffling) {
         self.isShuffling = true;
-        self.sortedTiles.forEach((tile, index) => {
+        self.tiles.forEach((tile, index) => {
           setTimeout(() => {
             tile.setIsAnimatingShuffle(true);
             if (index === 15) {
-              setTimeout(() => self.setIsShuffling(false), 1500);
+              setTimeout(() => self.setIsShuffling(false), 2000);
+              setTimeout(() => self.sortShuffledTiles(false), 500);
             }
             setTimeout(() => tile.shuffle(), 500);
           }, index * 20);
         });
       }
     },
+    swapTiles() {
+      const selectedTilesToSwap = self.tiles.filter((tile) => tile.isSelected && !!tile.rowIndex);
+      const nonSelectedTilesToSwap = self.tiles.filter((tile) => !tile.isSelected && tile.rowIndex === 0);
+
+      selectedTilesToSwap.forEach((selectedTile, index) => {
+        const nonSelectedTile = nonSelectedTilesToSwap[index];
+
+        selectedTile.animateSwap(nonSelectedTile);
+        nonSelectedTile.animateSwap(selectedTile);
+      });
+    },
     setIsShuffling(bool) {
       self.isShuffling = bool;
     },
     useMistake() {
       self.mistakesRemaining -= 1;
+    },
+    sortShuffledTiles() {
+      self.tiles = self.tiles.sort((a, b) => (a.sortString > b.sortString ? 1 : -1));
+      self.tiles.forEach((tile, index) => {
+        tile.setColumnIndex(index % 4);
+        tile.setRowIndex(Math.floor(index / 4));
+      });
     },
     addTiles(tileRefs) {
       tileRefs.forEach((tileRef) => {
@@ -79,12 +98,12 @@ export const game = model({
       return values(self.groups)[rowIndex];
     },
     getTileByIndex(rowIndex, columnIndex) {
-      return self.sortedTiles[rowIndex * 4 + columnIndex];
+      return self.tiles[rowIndex * 4 + columnIndex];
     },
     get isSubmitEnabled() {
       return values(self.selectedTiles).length === 4;
     },
-    get sortedTiles() {
-      return values(self.tiles).sort((a, b) => (a.sortString > b.sortString ? 1 : -1));
-    },
+    // get sortedTiles() {
+    //   return values(self.tiles).sort((a, b) => (a.sortString > b.sortString ? 1 : -1));
+    // },
   }));

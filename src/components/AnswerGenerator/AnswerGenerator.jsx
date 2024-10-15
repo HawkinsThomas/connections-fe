@@ -23,7 +23,6 @@ function AnswerGenerator() {
       if (!clue.trim()) {
         return;
       }
-      console.debug(clue);
       fetchAnswers(clue);
     },
   });

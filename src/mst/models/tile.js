@@ -9,12 +9,18 @@ export const tile = model({
   columnIndex: number,
   rowIndex: number,
   isAnimatingShake: optional(boolean, false),
+  isAnimatingSwap: optional(boolean, false),
   isAnimatingShuffle: optional(boolean, false),
   isSolved: optional(boolean, false),
   sortString: optional(string, ''),
+  xOffset: optional(number, 0),
+  yOffset: optional(number, 0),
 }).actions((self) => ({
   shuffle() {
     self.sortString = v4();
+  },
+  setSortString(sortString) {
+    self.sortString = sortString;
   },
   setSolved() {
     self.isSolved = true;
@@ -25,11 +31,25 @@ export const tile = model({
   setIsAnimatingShake(bool) {
     self.isAnimatingShake = bool;
   },
+  setIsAnimatingSwap(bool) {
+    self.isAnimatingSwap = bool;
+  },
+  animateSwap(swapTile) {
+    self.isAnimatingSwap = true;
+    self.xOffset = swapTile.columnIndex - self.columnIndex;
+    self.yOffset = swapTile.rowIndex - self.rowIndex;
+  },
   setIsAnimatingShuffle(bool) {
     self.isAnimatingShuffle = bool;
   },
   setGridPosition(columnIndex, rowIndex) {
     self.columnIndex = columnIndex;
     self.rowIndex = rowIndex;
+  },
+  setRowIndex(index) {
+    self.rowIndex = index;
+  },
+  setColumnIndex(index) {
+    self.columnIndex = index;
   },
 }));

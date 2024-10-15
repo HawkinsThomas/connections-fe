@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
@@ -27,9 +28,8 @@ const styles = {
   '&.isSolved': {
     backgroundColor: 'black',
     borderColor: 'black',
-    transform: 'scale(0.99)',
     '&:hover': {
-      cursor: 'default',
+      cursor: 'default ',
     },
   },
   transition: '0.3s ease',
@@ -41,7 +41,7 @@ const styles = {
     animation: 'shake 0.15s ease-in-out 3',
   },
   '&.isAnimatingShuffle': {
-    animation: 'shuffle 1s ease-in-out 1',
+    animation: 'shuffle 1.5s ease-in-out 1',
   },
   '@keyframes shake': {
     '0%': {
@@ -64,10 +64,10 @@ const styles = {
     '0%': {
       opacity: 1,
     },
-    '35%': {
+    '30%': {
       opacity: 0,
     },
-    '65%': {
+    '70%': {
       opacity: 0,
     },
     '100%': {
@@ -76,21 +76,55 @@ const styles = {
   },
 };
 
+const getSwapStyles = ({ x, y, id, isSelected }) => {
+  const animationName = `swap-${id.replace(' ', '-')}`;
+  return {
+    '&.isAnimatingSwap': {
+      animation: `${animationName} 0.5s ease-in-out`,
+    },
+    [`@keyframes ${animationName}`]: {
+      from: {
+        transform: `translate(0, 0) ${isSelected ? 'scale(0.95)' : ''}`,
+      },
+      to: {
+        transform: `translate(${x * 162}px, ${y * 87}px) ${isSelected ? 'scale(0.95)' : ''}`,
+      },
+    },
+  };
+};
+
 function Tile({ rowIndex, columnIndex }) {
   const {
     selectedGame: { tileOnClickHandler, getTileByIndex },
   } = useMst();
 
   const tile = getTileByIndex(rowIndex, columnIndex);
-  const { isSelected, isAnimatingShake, setIsAnimatingShake, isSolved, isAnimatingShuffle, setIsAnimatingShuffle } =
-    tile;
+
+  const {
+    isSelected,
+    isAnimatingSwap,
+    isAnimatingShake,
+    isAnimatingShuffle,
+    setIsAnimatingShake,
+    setIsAnimatingShuffle,
+    setIsAnimatingSwap,
+    isSolved,
+    xOffset,
+    yOffset,
+    text,
+  } = tile;
+
+  // React.useEffect(() => {
+  //   setSwapStyles(getSwapStyles(xOffset, yOffset));
+  // }, [swapStyles, setSwapStyles, xOffset, yOffset]);
 
   useAnimateOnce({ isAnimating: isAnimatingShake, setIsAnimating: setIsAnimatingShake, timeout: 450 });
-  useAnimateOnce({ isAnimating: isAnimatingShuffle, setIsAnimating: setIsAnimatingShuffle, timeout: 1000 });
+  useAnimateOnce({ isAnimating: isAnimatingShuffle, setIsAnimating: setIsAnimatingShuffle, timeout: 1500 });
+  useAnimateOnce({ isAnimating: isAnimatingSwap, setIsAnimating: setIsAnimatingSwap, timeout: 1000 });
   return (
     <Box
-      sx={styles}
-      className={clsx({ isSelected, isAnimatingShake, isSolved, isAnimatingShuffle })}
+      sx={{ ...styles, ...getSwapStyles({ x: xOffset, y: yOffset, id: text, isSelected }) }}
+      className={clsx({ isSelected, isAnimatingShake, isSolved, isAnimatingShuffle, isAnimatingSwap })}
       onClick={() => tileOnClickHandler(tile)}
     >
       <Typography
@@ -100,6 +134,22 @@ function Tile({ rowIndex, columnIndex }) {
         fontWeight={'bold'}
       >
         {tile.text.toUpperCase()}
+      </Typography>
+      <Typography
+        sx={{ transition: '0.3s' }}
+        className={clsx({ isAnimatingShuffle })}
+        color={isSelected || isSolved ? 'white' : 'black'}
+        variant="subtitle2"
+      >
+        row: {tile.rowIndex}
+      </Typography>
+      <Typography
+        sx={{ transition: '0.3s' }}
+        className={clsx({ isAnimatingShuffle })}
+        color={isSelected || isSolved ? 'white' : 'black'}
+        variant="subtitle2"
+      >
+        column: {tile.columnIndex}
       </Typography>
     </Box>
   );

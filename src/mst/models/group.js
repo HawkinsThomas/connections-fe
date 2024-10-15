@@ -1,4 +1,4 @@
-import { getSnapshot, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { tile } from './tile';
 import { values } from 'mobx';
 import { getRoot } from 'mobx-state-tree';
@@ -13,7 +13,6 @@ export const group = model({
   .actions((self) => ({
     setSolved() {
       self.isSolved = true;
-      console.debug(getSnapshot(self.tiles));
       values(self.tiles).forEach((tile) => tile.setSolved());
     },
     setTiles(tileRefs) {

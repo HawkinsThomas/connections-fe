@@ -28,10 +28,10 @@ const millSt = tile.create({ text: 'mill st', columnIndex: 3, rowIndex: 2 });
 const groupThreeTiles = [burdock, bellwoods, bandit, millSt];
 
 // group 4
-const cheese = tile.create({ text: 'cheese', columnIndex: 0, rowIndex: 4 });
-const bed = tile.create({ text: 'bed', columnIndex: 1, rowIndex: 4 });
-const strawberry = tile.create({ text: 'strawberry', columnIndex: 2, rowIndex: 4 });
-const wheel = tile.create({ text: 'wheel', columnIndex: 3, rowIndex: 4 });
+const cheese = tile.create({ text: 'cheese', columnIndex: 0, rowIndex: 3 });
+const bed = tile.create({ text: 'bed', columnIndex: 1, rowIndex: 3 });
+const strawberry = tile.create({ text: 'strawberry', columnIndex: 2, rowIndex: 3 });
+const wheel = tile.create({ text: 'wheel', columnIndex: 3, rowIndex: 3 });
 
 const groupFourTiles = [cheese, bed, strawberry, wheel];
 
